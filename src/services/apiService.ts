@@ -9,6 +9,7 @@ import {
   ErrorLog, 
   ApiStats 
 } from '../types';
+import mockDataService from './mockDataService';
 
 class ApiService {
   private instances: Map<string, AxiosInstance> = new Map();
@@ -74,8 +75,9 @@ class ApiService {
         uptime: response.data.uptime || 0,
       };
     } catch (error) {
-      console.error('Failed to get system status:', error);
-      throw error;
+      console.warn('Failed to get system status from API, using mock data:', error);
+      // 返回模拟数据
+      return mockDataService.generateSystemStatus();
     }
   }
 
@@ -95,8 +97,8 @@ class ApiService {
         usage: key.usage || 0,
       }));
     } catch (error) {
-      console.error('Failed to get recent keys:', error);
-      throw error;
+      console.warn('Failed to get recent keys from API, using mock data:', error);
+      return mockDataService.generateRecentKeys();
     }
   }
 
@@ -117,8 +119,8 @@ class ApiService {
         isActive: user.is_active,
       }));
     } catch (error) {
-      console.error('Failed to get logged users:', error);
-      throw error;
+      console.warn('Failed to get logged users from API, using mock data:', error);
+      return mockDataService.generateLoggedUsers();
     }
   }
 
@@ -138,8 +140,8 @@ class ApiService {
         lastUsed: new Date(model.last_used),
       }));
     } catch (error) {
-      console.error('Failed to get model usage:', error);
-      throw error;
+      console.warn('Failed to get model usage from API, using mock data:', error);
+      return mockDataService.generateModelUsage();
     }
   }
 
@@ -160,8 +162,8 @@ class ApiService {
         lastAccess: new Date(ip.last_access),
       }));
     } catch (error) {
-      console.error('Failed to get access IPs:', error);
-      throw error;
+      console.warn('Failed to get access IPs from API, using mock data:', error);
+      return mockDataService.generateAccessIPs();
     }
   }
 
@@ -183,8 +185,8 @@ class ApiService {
         details: log.details,
       }));
     } catch (error) {
-      console.error('Failed to get error logs:', error);
-      throw error;
+      console.warn('Failed to get error logs from API, using mock data:', error);
+      return mockDataService.generateErrorLogs(limit);
     }
   }
 
@@ -205,8 +207,8 @@ class ApiService {
         requestsPerHour: response.data.requests_per_hour || 0,
       };
     } catch (error) {
-      console.error('Failed to get API stats:', error);
-      throw error;
+      console.warn('Failed to get API stats from API, using mock data:', error);
+      return mockDataService.generateApiStats();
     }
   }
 
