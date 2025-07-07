@@ -105,6 +105,15 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    
+    // 自定义APK输出文件名
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def buildType = variant.buildType.name
+            def versionName = variant.versionName
+            outputFileName = "NewApi-${buildType}-v${versionName}.apk"
+        }
+    }
 }
 
 dependencies {

@@ -1,97 +1,201 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# New API Manager
 
-# Getting Started
+[![Android Build](https://github.com/tpu01yzx/new-api-app/workflows/Build%20Android/badge.svg)](https://github.com/tpu01yzx/new-api-app/actions)
+[![iOS Build](https://github.com/tpu01yzx/new-api-app/workflows/Build%20iOS/badge.svg)](https://github.com/tpu01yzx/new-api-app/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/tpu01yzx/new-api-app/releases)
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+一个跨平台移动应用，用于统一监控和管理多个 [new-api](https://github.com/Calcium-Ion/new-api) 实例。
 
-## Step 1: Start Metro
+## 📱 支持平台
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- **🤖 Android** 7.0+ (API 24) - ✅ 已构建
+- **🍎 iOS** 11.0+ - ✅ 已构建 
+- **🦋 鸿蒙** NEXT - 🔵 开发中
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## 🎯 项目特性
 
-```sh
-# Using npm
+### 📊 监控管理
+- ✅ **多实例管理** - 添加/删除多个new-api实例
+- ✅ **实时监控** - 系统状态、健康检查、版本信息
+- ✅ **资源统计** - KEY数量、用户数量、模型支持
+- ✅ **活动追踪** - 最近访问记录、在线用户监控
+
+### 🎨 用户体验
+- ✅ **现代化UI** - Material Design设计规范
+- ✅ **响应式布局** - 适配各种屏幕尺寸
+- ✅ **智能降级** - API失败时自动切换模拟数据
+- ✅ **离线支持** - 本地数据缓存机制
+
+### 🛡️ 技术保障
+- ✅ **类型安全** - 100% TypeScript覆盖
+- ✅ **测试完整** - 单元测试全覆盖
+- ✅ **代码规范** - ESLint + Prettier
+- ✅ **自动构建** - GitHub Actions CI/CD
+
+## 🚀 快速开始
+
+### 📥 下载安装包
+
+#### Android
+1. 访问 [Releases](https://github.com/tpu01yzx/new-api-app/releases) 页面
+2. 下载 `NewApi-release-v1.0.apk` (52MB)
+3. 在Android设备上安装APK
+
+#### iOS
+1. 下载 `NewApiApp.xcarchive` 
+2. 使用Xcode签名并导出IPA
+3. 通过TestFlight或直接安装
+
+### 🔧 本地开发
+
+#### 环境要求
+- **Node.js** 18+
+- **React Native CLI** 19+
+- **Android**: Java JDK 17 + Android SDK
+- **iOS**: macOS + Xcode 14+ + CocoaPods
+
+#### 安装步骤
+
+```bash
+# 1. 克隆项目
+git clone --recursive git@github.com:tpu01yzx/new-api-app.git
+cd new-api-app
+
+# 2. 安装依赖
+npm install
+
+# 3. 启动开发服务器
 npm start
 
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+# 4. 运行应用
+# Android:
 npm run android
 
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+# iOS (仅macOS):
+cd ios && pod install && cd ..
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## 🔧 构建部署
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+### 自动化构建 (推荐)
 
-## Step 3: Modify your app
+项目使用 GitHub Actions 进行自动化构建：
 
-Now that you have successfully run the app, let's make changes!
+1. **Fork 本仓库**
+2. **推送到 main 分支** 自动触发构建
+3. **创建版本标签** 自动发布：
+   ```bash
+   git tag v1.0.0
+   git push origin v1.0.0
+   ```
+4. **下载构建产物** 从 Actions 页面下载
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+详细说明请参考: [CI/CD 构建指南](docs/CI_CD_GUIDE.md)
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+### 手动构建
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+```bash
+# Android
+cd android
+./gradlew assembleRelease
 
-## Congratulations! :tada:
+# iOS (需要macOS)
+cd ios
+xcodebuild -workspace NewApiApp.xcworkspace -scheme NewApiApp archive
+```
 
-You've successfully run and modified your React Native App. :partying_face:
+## 📖 使用说明
 
-### Now what?
+### 添加API实例
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+1. 打开应用，点击右上角 **"+"** 按钮
+2. 填写实例信息：
+   - **名称**: 自定义实例名称
+   - **URL**: new-api实例地址 (如: `https://api.example.com`)
+   - **Token**: 访问令牌
+3. 点击 **"测试连接"** 验证配置
+4. 保存实例配置
 
-# Troubleshooting
+### 查看监控数据
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+- **系统状态**: 健康检查、版本、运行时间
+- **资源统计**: KEY/用户/模型数量
+- **活动监控**: 最近访问、在线用户
+- **访问记录**: IP地址、调用模型、使用频率
 
-# Learn More
+## 🏗️ 项目架构
 
-To learn more about React Native, take a look at the following resources:
+### 技术栈
+- **框架**: React Native 0.80.1
+- **语言**: TypeScript 5.0.4
+- **导航**: React Navigation 7
+- **状态管理**: React Hooks + Context
+- **存储**: AsyncStorage
+- **构建**: Gradle (Android) + Xcode (iOS)
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+### 目录结构
+```
+new-api-app/
+├── src/                    # 源代码
+│   ├── components/         # 可复用组件
+│   ├── screens/           # 页面组件
+│   ├── services/          # API服务层
+│   ├── types/             # TypeScript类型
+│   ├── utils/             # 工具函数
+│   └── constants/         # 常量配置
+├── android/               # Android原生代码
+├── ios/                   # iOS原生代码
+├── .github/workflows/     # GitHub Actions
+└── docs/                  # 项目文档
+```
+
+## 🧪 测试
+
+```bash
+# 运行所有测试
+npm test
+
+# 测试覆盖率
+npm run test:coverage
+
+# TypeScript类型检查
+npx tsc --noEmit
+
+# 代码规范检查
+npm run lint
+```
+
+## 📚 文档
+
+- [📖 构建说明](BUILD.md) - 详细构建步骤
+- [🚀 CI/CD指南](docs/CI_CD_GUIDE.md) - 自动化构建
+- [📋 发布准备](RELEASE_PREPARATION.md) - 发布流程
+- [📊 项目总结](PROJECT_SUMMARY.md) - 开发历程
+
+## 🤝 贡献
+
+欢迎贡献代码！请遵循以下步骤：
+
+1. Fork 本仓库
+2. 创建功能分支: `git checkout -b feature/amazing-feature`
+3. 提交更改: `git commit -m 'Add amazing feature'`
+4. 推送分支: `git push origin feature/amazing-feature`
+5. 创建 Pull Request
+
+## 📝 许可证
+
+本项目使用 [MIT 许可证](LICENSE)。
+
+## 🔗 相关链接
+
+- [new-api 项目](https://github.com/Calcium-Ion/new-api) - 后端API服务
+- [React Native 官网](https://reactnative.dev/) - 技术框架
+- [Material Design](https://material.io/design) - 设计规范
+
+---
+
+**项目状态**: 🟢 Active Development  
+**维护者**: [@tpu01yzx](https://github.com/tpu01yzx)  
+**最后更新**: 2024年7月6日

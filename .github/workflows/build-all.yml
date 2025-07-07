@@ -1,0 +1,147 @@
+name: 🚀 Build All Platforms
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: false
+        default: '1.0.0'
+
+jobs:
+  # 并行构建所有平台
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: 🤖 Setup Android SDK
+        uses: android-actions/setup-android@v3
+      
+      - name: 📱 Install dependencies
+        run: npm ci
+          
+      - name: 🔨 Build Android APKs
+        run: |
+          cd android
+          ./gradlew assembleDebug assembleRelease --no-daemon
+          
+      - name: 📤 Upload Android APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apks
+          path: android/app/build/outputs/apk/**/*.apk
+
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: 📦 Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 🍎 Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+          working-directory: ios
+      
+      - name: 📱 Install dependencies
+        run: npm ci
+          
+      - name: 📦 Install CocoaPods
+        run: |
+          cd ios
+          pod install --repo-update
+          
+      - name: 🔨 Build iOS Archive
+        run: |
+          cd ios
+          xcodebuild \
+            -workspace NewApiApp.xcworkspace \
+            -scheme NewApiApp \
+            -sdk iphoneos \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath NewApiApp.xcarchive \
+            archive \
+            CODE_SIGNING_ALLOWED=NO
+            
+      - name: 📤 Upload iOS Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-archive
+          path: ios/NewApiApp.xcarchive
+
+  # 创建发布包
+  create-release:
+    needs: [build-android, build-ios]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+      - name: 📦 Download Android APKs
+        uses: actions/download-artifact@v4
+        with:
+          name: android-apks
+          path: ./android-builds
+      
+      - name: 📦 Download iOS Archive
+        uses: actions/download-artifact@v4
+        with:
+          name: ios-archive
+          path: ./ios-builds
+          
+      - name: 📋 Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            android-builds/**/*.apk
+            ios-builds/**/*
+          body: |
+            ## 🎉 New API Manager Release
+            
+            ### 📱 Android
+            - `NewApi-debug-v1.0.apk` - Debug版本 (开发测试)
+            - `NewApi-release-v1.0.apk` - Release版本 (生产使用)
+            
+            ### 🍎 iOS  
+            - `NewApiApp.xcarchive` - iOS Archive (需要Xcode签名)
+            
+            ### 🚀 功能特性
+            - ✅ 支持多个new-api实例管理
+            - ✅ 实时监控和数据展示
+            - ✅ Material Design现代化界面
+            - ✅ 完整的TypeScript类型安全
+            
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

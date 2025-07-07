@@ -1,0 +1,71 @@
+name: 🤖 Build Android
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: 🤖 Setup Android SDK
+        uses: android-actions/setup-android@v3
+      
+      - name: 📱 Install dependencies
+        run: |
+          npm ci
+          
+      - name: 🔧 Setup Android environment
+        run: |
+          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools" >> $GITHUB_ENV
+          
+      - name: 🔨 Build Android Debug APK
+        run: |
+          cd android
+          ./gradlew assembleDebug --no-daemon --stacktrace
+          
+      - name: 🚀 Build Android Release APK
+        run: |
+          cd android
+          ./gradlew assembleRelease --no-daemon --stacktrace
+          
+      - name: 📤 Upload Android Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: NewApi-Android-v1.0
+          path: |
+            android/app/build/outputs/apk/debug/NewApi-debug-v1.0.apk
+            android/app/build/outputs/apk/release/NewApi-release-v1.0.apk
+          retention-days: 30
+          
+      - name: 📋 Build Summary
+        run: |
+          echo "## 🤖 Android Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ✅ Build completed" >> $GITHUB_STEP_SUMMARY
+          echo "- **Platform**: Android" >> $GITHUB_STEP_SUMMARY
+          echo "- **Debug APK**: $(ls -lh android/app/build/outputs/apk/debug/NewApi-debug-v1.0.apk | awk '{print $5}')" >> $GITHUB_STEP_SUMMARY
+          echo "- **Release APK**: $(ls -lh android/app/build/outputs/apk/release/NewApi-release-v1.0.apk | awk '{print $5}')" >> $GITHUB_STEP_SUMMARY
+          echo "- **Min SDK**: API 24 (Android 7.0)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target SDK**: API 35" >> $GITHUB_STEP_SUMMARY 

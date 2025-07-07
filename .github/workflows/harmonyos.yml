@@ -1,0 +1,80 @@
+name: 🦋 Build HarmonyOS
+
+on:
+  workflow_dispatch:
+  # 暂时手动触发，等待鸿蒙环境完善
+
+jobs:
+  build-harmonyos:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📱 Install dependencies
+        run: npm ci
+      
+      # 注意：鸿蒙构建目前需要特殊环境，这里提供框架
+      - name: 🦋 Prepare HarmonyOS build environment
+        run: |
+          echo "## 🦋 HarmonyOS Build Status" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **Status**: Environment setup required" >> $GITHUB_STEP_SUMMARY
+          echo "📋 **Requirements**:" >> $GITHUB_STEP_SUMMARY
+          echo "- DevEco Studio 4.0+" >> $GITHUB_STEP_SUMMARY
+          echo "- HarmonyOS SDK" >> $GITHUB_STEP_SUMMARY
+          echo "- React Native HarmonyOS adapter" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 **Resources**:" >> $GITHUB_STEP_SUMMARY
+          echo "- [HarmonyOS Developer Portal](https://developer.harmonyos.com/)" >> $GITHUB_STEP_SUMMARY
+          echo "- [React Native HarmonyOS](https://gitee.com/react-native-oh/usage-docs)" >> $GITHUB_STEP_SUMMARY
+          
+      - name: 📋 Generate HarmonyOS build instructions
+        run: |
+          mkdir -p harmonyos-build
+          cat > harmonyos-build/README.md << 'EOF'
+          # 🦋 HarmonyOS 构建说明
+          
+          ## 环境要求
+          
+          1. **DevEco Studio 4.0+**
+             - 下载地址：https://developer.harmonyos.com/cn/develop/deveco-studio
+          
+          2. **HarmonyOS SDK**
+             - 在DevEco Studio中安装最新SDK
+          
+          3. **React Native HarmonyOS**
+             ```bash
+             npm install @react-native-oh/react-native-harmony
+             ```
+          
+          ## 构建步骤
+          
+          1. 在DevEco Studio中导入项目
+          2. 配置HarmonyOS环境
+          3. 运行构建命令：
+             ```bash
+             hvigor assembleApp
+             ```
+          
+          ## 输出文件
+          
+          - `app-debug.hap` - Debug版本
+          - `app-release.hap` - Release版本
+          
+          EOF
+          
+      - name: 📤 Upload HarmonyOS instructions
+        uses: actions/upload-artifact@v4
+        with:
+          name: HarmonyOS-Build-Instructions
+          path: harmonyos-build/README.md
+          retention-days: 30 

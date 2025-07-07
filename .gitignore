@@ -74,3 +74,20 @@ yarn-error.log
 !.yarn/sdks
 !.yarn/versions
 gradle-8.14.1-bin.zip
+
+# APK files (generated builds)
+*.apk
+*.aab
+
+# iOS Archives
+*.xcarchive
+
+# HarmonyOS builds
+*.hap
+
+# CI/CD artifacts
+build-outputs/
+release-artifacts/
+
+# Local build scripts
+build-local.sh
