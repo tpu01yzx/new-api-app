@@ -79,13 +79,28 @@ chmod +x gradlew
 
 ### 4. 发布到GitHub
 
-#### 方法一：使用自动化脚本（推荐）
+#### 方法一：网络受限环境 - 纯SSH方案（推荐）
 ```bash
-# 前提：已安装GitHub CLI并完成认证
-gh auth login
+# 适用于：无法访问HTTPS GitHub的环境
+# 前提：已配置SSH密钥到GitHub
+# 仅使用Git和SSH，不需要GitHub API
 
-# 执行发布脚本
-./scripts/manual-release.sh
+./scripts/manual-release-ssh-only.sh
+```
+
+#### 方法二：网络正常环境 - SSH + API
+```bash
+# 适用于：能访问GitHub API的环境
+# 前提：已配置SSH密钥，需要GitHub Token
+export GITHUB_TOKEN="your_token_here"
+./scripts/manual-release-ssh.sh
+```
+
+#### 方法三：使用curl版本
+```bash
+# 适用于：能访问GitHub API但不想用GitHub CLI
+export GITHUB_TOKEN="your_token_here"
+./scripts/manual-release-curl.sh
 ```
 
 #### 方法二：手动发布

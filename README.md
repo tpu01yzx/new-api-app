@@ -92,14 +92,27 @@ npm run ios
 
 #### 🔧 一键构建
 ```bash
-# 自动化构建脚本
+# 1. 自动化构建脚本
 chmod +x scripts/manual-build.sh
 ./scripts/manual-build.sh
 
-# 自动化发布脚本
-chmod +x scripts/manual-release.sh
-./scripts/manual-release.sh
+# 2. 版本号检查（可选）
+./scripts/version-check.sh
+
+# 3. 发布（根据网络环境选择）
+# 网络受限环境（推荐）- 仅使用SSH
+chmod +x scripts/manual-release-ssh-only.sh
+./scripts/manual-release-ssh-only.sh
+
+# 网络正常环境 - 需要GitHub API访问
+export GITHUB_TOKEN="your_token_here"
+./scripts/manual-release-ssh.sh
 ```
+
+#### 📋 版本号管理
+- **统一版本号**: Git标签 `v0.0.1` ↔ Android `versionName "0.0.1"`
+- **文件命名**: `NewApi-release-v0.0.1.apk`, `NewApi-debug-v0.0.1.apk`
+- **自动过滤**: 发布时只处理包含指定版本号的文件
 
 #### 📋 手动构建
 ```bash
@@ -180,6 +193,8 @@ npm run lint
 
 ## 📚 文档
 
+- [🌐 网络限制指南](docs/NETWORK_RESTRICTIONS.md) - 网络受限环境完整解决方案 ⭐
+- [🔐 SSH发布指南](docs/SSH_RELEASE_GUIDE.md) - SSH认证发布详细指南
 - [📱 手动构建](docs/MANUAL_BUILD.md) - 手动构建和发布指南
 - [📖 构建说明](BUILD.md) - 详细构建步骤
 - [📋 发布说明](RELEASE_NOTES.md) - 版本发布信息
