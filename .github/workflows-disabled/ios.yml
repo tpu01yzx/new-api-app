@@ -1,9 +1,3 @@
-# 此工作流已暂时禁用
-# 由于GitHub Actions免费额度限制，暂时禁用iOS自动构建
-# 文件备份位于: .github/workflows-disabled/ios.yml
-# 
-# 手动构建方法：需要macOS环境
-
 name: 🍎 Build iOS
 
 on:

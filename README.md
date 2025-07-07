@@ -31,7 +31,7 @@
 - ✅ **类型安全** - 100% TypeScript覆盖
 - ✅ **测试完整** - 单元测试全覆盖
 - ✅ **代码规范** - ESLint + Prettier
-- ✅ **自动构建** - GitHub Actions CI/CD
+- ✅ **手动构建** - 本地构建脚本完整
 
 ## 🚀 快速开始
 
@@ -86,18 +86,22 @@ npm run ios
 - **🔵 iOS版本** - 开发中，预计v0.2.0发布
 - **🔵 鸿蒙版本** - 规划中，预计v0.3.0发布
 
-### 自动化构建
+### 构建和发布
 
-项目配置了完整的GitHub Actions工作流：
+由于GitHub Actions费用限制，目前采用手动构建方式：
 
-1. **Android构建** - 自动生成APK文件
-2. **多平台支持** - iOS/鸿蒙构建框架已就绪
-3. **自动发布** - 版本标签触发Release创建
+#### 🔧 一键构建
+```bash
+# 自动化构建脚本
+chmod +x scripts/manual-build.sh
+./scripts/manual-build.sh
 
-详细说明请参考: [CI/CD 构建指南](docs/CI_CD_GUIDE.md)
+# 自动化发布脚本
+chmod +x scripts/manual-release.sh
+./scripts/manual-release.sh
+```
 
-### 手动构建
-
+#### 📋 手动构建
 ```bash
 # Android
 cd android
@@ -107,6 +111,11 @@ cd android
 cd ios
 xcodebuild -workspace NewApiApp.xcworkspace -scheme NewApiApp archive
 ```
+
+#### 🔄 CI/CD状态
+- **GitHub Actions**: 已暂时禁用 (费用限制)
+- **工作流备份**: `.github/workflows-disabled/`
+- **详细指南**: [手动构建文档](docs/MANUAL_BUILD.md)
 
 ## 📖 使用说明
 
@@ -171,10 +180,11 @@ npm run lint
 
 ## 📚 文档
 
+- [📱 手动构建](docs/MANUAL_BUILD.md) - 手动构建和发布指南
 - [📖 构建说明](BUILD.md) - 详细构建步骤
-- [🚀 CI/CD指南](docs/CI_CD_GUIDE.md) - 自动化构建
-- [📋 发布准备](RELEASE_PREPARATION.md) - 发布流程
+- [📋 发布说明](RELEASE_NOTES.md) - 版本发布信息
 - [📊 项目总结](PROJECT_SUMMARY.md) - 开发历程
+- [🔧 GitHub Actions](/.github/workflows-disabled/) - CI/CD备份配置
 
 ## 🤝 贡献
 

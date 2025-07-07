@@ -1,10 +1,3 @@
-# 此工作流已暂时禁用
-# 由于GitHub Actions免费额度限制，暂时禁用Android自动构建
-# 文件备份位于: .github/workflows-disabled/android.yml
-# 
-# 手动构建方法：
-# cd android && ./gradlew assembleRelease
-
 name: 🤖 Build Android
 
 on:

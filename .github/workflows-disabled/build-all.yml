@@ -1,9 +1,3 @@
-# 此工作流已暂时禁用
-# 由于GitHub Actions免费额度限制，暂时禁用多平台自动构建
-# 文件备份位于: .github/workflows-disabled/build-all.yml
-# 
-# 手动构建方法：参考各平台单独的构建脚本
-
 name: 🚀 Build All Platforms
 
 on:
