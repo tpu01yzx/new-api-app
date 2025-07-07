@@ -91,3 +91,12 @@ release-artifacts/
 
 # Local build scripts
 build-local.sh
+
+# Release directories
+release-v*/
+release-*/
+
+# Large download files
+gradle-*.zip
+*.dmg
+*.exe

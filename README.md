@@ -9,9 +9,9 @@
 
 ## 📱 支持平台
 
-- **🤖 Android** 7.0+ (API 24) - ✅ 已构建
-- **🍎 iOS** 11.0+ - ✅ 已构建 
-- **🦋 鸿蒙** NEXT - 🔵 开发中
+- **🤖 Android** 7.0+ (API 24) - ✅ **现已发布**
+- **🍎 iOS** 11.0+ - 🔵 开发中
+- **🦋 鸿蒙** NEXT - 🔵 规划中
 
 ## 🎯 项目特性
 
@@ -37,15 +37,16 @@
 
 ### 📥 下载安装包
 
-#### Android
-1. 访问 [Releases](https://github.com/tpu01yzx/new-api-app/releases) 页面
-2. 下载 `NewApi-release-v1.0.apk` (52MB)
-3. 在Android设备上安装APK
+#### 🤖 Android (现已发布)
+1. 访问 [Releases](https://github.com/tpu01yzx/new-api-app/releases/latest) 页面
+2. 下载 `NewApi-v0.0.1-release.apk` (52MB) - **推荐**
+3. 下载 `NewApi-v0.0.1-debug.apk` (116MB) - 调试版
+4. 在Android设备上启用"未知来源安装"并安装APK
 
-#### iOS
-1. 下载 `NewApiApp.xcarchive` 
-2. 使用Xcode签名并导出IPA
-3. 通过TestFlight或直接安装
+#### 🍎 iOS (开发中)
+- 计划在v0.2.0版本发布
+- 将提供TestFlight测试版本
+- 敬请期待...
 
 ### 🔧 本地开发
 
@@ -79,18 +80,19 @@ npm run ios
 
 ## 🔧 构建部署
 
-### 自动化构建 (推荐)
+### 📱 当前发布状态
 
-项目使用 GitHub Actions 进行自动化构建：
+- **✅ v0.0.1 Android版本** - 已发布，可直接下载
+- **🔵 iOS版本** - 开发中，预计v0.2.0发布
+- **🔵 鸿蒙版本** - 规划中，预计v0.3.0发布
 
-1. **Fork 本仓库**
-2. **推送到 main 分支** 自动触发构建
-3. **创建版本标签** 自动发布：
-   ```bash
-   git tag v1.0.0
-   git push origin v1.0.0
-   ```
-4. **下载构建产物** 从 Actions 页面下载
+### 自动化构建
+
+项目配置了完整的GitHub Actions工作流：
+
+1. **Android构建** - 自动生成APK文件
+2. **多平台支持** - iOS/鸿蒙构建框架已就绪
+3. **自动发布** - 版本标签触发Release创建
 
 详细说明请参考: [CI/CD 构建指南](docs/CI_CD_GUIDE.md)
 
